@@ -1,0 +1,64 @@
+---
+title: "Pengaruh Bakat Terhadap Kemampuan Bermain Bulutangkis"
+author: "I Nyoman Sweta"
+date: "1/31/2022"
+output: html_document
+---
+## Import Libray
+Import library yang diperlukan:
+
+1. gglplot: Untuk membuat grafik
+1. ggpubr: Untuk menambah persamaan pada grafik
+
+```{r}
+library(ggplot2)
+library(ggpubr)
+```
+
+
+```{r}
+df<-read.csv("datas/bakat_keahlian.csv")
+summary(df)
+```
+
+```{r}
+hist(df$Keahlian)
+```
+
+```{r}
+plot(Keahlian ~ Bakat, data = df)
+```
+
+```{r}
+model<-lm(Keahlian ~ Bakat, data = df)
+summary(model)
+```
+```{r}
+predict(model,data.frame(Bakat=c(56,82)))
+```
+
+
+```{r}
+grafik<-ggplot(df, aes(x=Bakat, y=Keahlian))+
+                     geom_point()
+grafik
+```
+
+```{r}
+grafik <- grafik + geom_smooth(method="lm", col="red")
+grafik
+```
+```{r}
+grafik <- grafik + 
+  stat_regline_equation(label.x.npc = "center")
+grafik
+```
+```{r}
+grafik +
+  theme_bw() +
+  labs(title = "Pengaruh Bakat terhadap Keahlian Bermain Bulutangkis",
+       subtitle = "Pada Perkumpulan Olahraga Tepuk Bulu",
+       x = "Bakat (0 s/d 100)",
+       y = "Keahlian (0 s/d 100)")
+```
+
